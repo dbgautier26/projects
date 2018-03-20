@@ -1,14 +1,17 @@
 <?php
+//set access permissions
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+header("Access-Control-Allow-Headers: Origin, Content-Type, Accept, Authorization");
 
-if(isset($_GET['currency'])&& isset($_GET['amount'])) {
- 
- //Set our variables
-$currency_given = strtolower($_GET['cur1']);
-$amount = strtolower($_GET['amount']);  
+//check if format set
+if(isset($_GET['format'])) {
+
+//Set our variables
+$format = strtolower($_GET['format']);
 
 //connection to mysql using login credentials and selection of database
-		
-	require("db.php");
+$conn = mysqli_connect('localhost', '1417923', 'Benjamin', 'db1417923');
 
 //Run our query
 $result = mysqli_query("SELECT * FROM Rates WHERE currency_name='$currency_given' and date_saved='NOW() - INTERVAL 5 MINUTE'") or die('MySQL Error.');
@@ -50,7 +53,8 @@ die('Improper response format.');
  
 //Render the output.
 echo $output;
-
 }
-
+else{
+echo 'no format set' ;
+}
 ?>
