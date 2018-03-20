@@ -6,6 +6,10 @@
 <TITLE> </TITLE>
 </HEAD>
 <BODY>
+<?php//retrieve information about exchange rates
+	require 'data.php';
+?>
+
 <div id="google_translate_element"></div>
 
 <script type="text/javascript">
@@ -26,64 +30,52 @@ function googleTranslateElementInit() {
 <table>
  <tr>
  <td>
- Enter Amount:<input type="text" name="amount"><br>
+ Enter Amount:<input type="number" name="amount"><br>
  </td>
  </tr>
  <tr>
  <td>
- <br><center>From:<select name='cur1'>
+ <br><center>From:
 <?php
-//retrieve information about exchange rates
-require ("data.php");
 
 //connection to mysql using login credentials and selection of database
-	require("db.php");
+	$conn = mysqli_connect('localhost', '1417923', 'Benjamin', 'db1417923');
 	
-// Assume $db is a PDO object
 // Run your query
-$query = $db->query("SELECT Rates.currency_name FROM rates"); 
-?>
-<select name="select your currency">; 
+$query = "SELECT currency_name FROM Rates"; 
+$result = mysqli_query($conn, $query);
 
-<?php
+echo "<select id='cur1' name='cur1'>"; 
+
 // Loop through the query results, outputing the options one by one
-while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+	while ($row = mysqli_fetch_array($result)) {
+	echo "<option value='" . $row['currency_name'] . "'>" . $row['currency_name'] . "</option>";
+	}
+	
+echo "</select>"
 ?>
-  <option value="'.$row.'">
-  <?php
-  echo $row;
-  ?>
-  </option>
-<?php
-}
-?>
-</select>
 </td>
 </tr>
 <tr>
  <td>
- <br><center>To:<select name='cur2'>
- <select>
- <?php
-// Assume $db is a PDO object
-// Run your query
-$query = $db->query("SELECT Rates.currency_name FROM Rates"); 
-?>
-<select name="select your currency">; 
+ <br><center>To:<?php
 
-<?php
+//connection to mysql using login credentials and selection of database
+	$conn = mysqli_connect('localhost', '1417923', 'Benjamin', 'db1417923');
+	
+// Run your query
+$query = "SELECT currency_name FROM Rates"; 
+$result = mysqli_query($conn, $query);
+
+echo "<select id='cur2' name='cur2'>"; 
+
 // Loop through the query results, outputing the options one by one
-while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+	while ($row = mysqli_fetch_array($result)) {
+	echo "<option value='" . $row['currency_name'] . "'>" . $row['currency_name'] . "</option>";
+	}
+	
+echo "</select>"
 ?>
-  <option value="'.$row.'">
-  <?php
-  echo $row;
-  ?>
-  </option>
-<?php
-}
-?>
- </select>
 </td>
 </tr>
 <tr>

@@ -5,10 +5,17 @@
 	$password = "Benjamin";
 	$database = "db1417923";
 	$hostname = "localhost"; 
-	mysqli_connect($hostname, $username, $password) or die('MySQL Error.');
+	mysqli_connect($hostname, $username, $password, $database);
 	
-//select database
+	if (mysqli_connect_errno()){
 		
-	mysqli_select_db("$database") or die('MySQL Error.');
+	echo "Failed to connect to MySQL: " . mysqli_connect_error();
+  
+	}
+  
+//select database
+	$con = 	mysqli_connect($hostname, $username, $password, $database);
+
+	mysqli_select_db($con, $database) or die('MySQL Error.');
 		
 ?>
